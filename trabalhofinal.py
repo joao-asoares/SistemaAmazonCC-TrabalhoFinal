@@ -1,4 +1,3 @@
-
 class cliente:
     nome = None
     cpf = None
@@ -15,32 +14,39 @@ class produto:
         self.estoque = estoque
 
 
-clientes = []
-clienteAtualIndex = int()
-
 # Criando os produtos
-titulos = ["Atlas", "Percy Jefferson", "Probability and Computing", "Lord of the Things", "Dom Pixote",
-           "A Song of Ice and Cream", "Modern Operating Systems", "Harry Pote",
-           "Guia: como ser bonito como o Guilherme",
-           "Dom Casmorro", "JoJo's Bizarre Avenue", "Hunger Plays", "O Corniço", "The Chalk Bro",
-           "Guia: como ser esbelto como o Andrei",
-           "Software Engineering", "The Chronicles of Naria", "Twilighter", "Hunt x Hunt", "Os Certões"]
+def criaProdutos():
+    titulos = ["Atlas", "Percy Jefferson", "Probability and Computing", "Lord of the Things", "Dom Pixote",
+               "A Song of Ice and Cream", "Modern Operating Systems", "Harry Pote",
+               "Guia: como ser bonito como o Guilherme",
+               "Dom Casmorro", "JoJo's Bizarre Avenue", "Hunger Plays", "O Corniço", "The Chalk Bro",
+               "Guia: como ser esbelto como o Andrei",
+               "Software Engineering", "The Chronicles of Naria", "Twilighter", "Hunt x Hunt", "Os Certões"]
 
-precos = [30.00, 50.00, 200.00, 45.00, 20.00,
-          25.00, 350.00, 50.00, 100.00, 30.00,
-          930.00, 55.00, 15.00, 60.00, 100.00,
-          170.00, 40.00, 45.00, 30.00, 35.00]
+    precos = [30.00, 50.00, 200.00, 45.00, 20.00,
+              25.00, 350.00, 50.00, 100.00, 30.00,
+              930.00, 55.00, 15.00, 60.00, 100.00,
+              170.00, 40.00, 45.00, 30.00, 35.00]
 
-quant = [25, 10, 3, 15, 20, 10, 3,
-         10, 2, 22, 1, 7, 30, 20,
-         2, 5, 11, 9, 20, 25, ]
+    quant = [25, 10, 3, 15, 20, 10, 3,
+             10, 2, 22, 1, 7, 30, 20,
+             2, 5, 11, 9, 20, 25, ]
 
-produtos = []
+    produtos = []
 
-# Adicionar os podutos à lista:
-for i in range(20):
-    produtos.append(produto(titulos[i], precos[i], quant[i]))
+    # Adicionar os podutos à lista:
+    for i in range(20):
+        produtos.append(produto(titulos[i], precos[i], quant[i]))
 
+    return produtos
+
+#Criando a lista produtos com a função criaProdutos()
+produtos= criaProdutos()
+
+#Lista em que os clientes cadastrados ficam salvos
+clientes = []
+
+clienteAtualIndex = int()
 
 # Adicionar mais crédito
 def adicionar_credito(cliente):
@@ -62,7 +68,9 @@ def pagar_conta(valor_conta, clienteAtual):
         [3] Retornar ao menu
         """)
         opt = int(input("Digite a opção que deseja selecionar: "))
+
         if opt == 1:
+            #Imprime o carrinho
             clienteAtual.limiteCredito -= valor_conta
             print(10 * "-=", "COMPRA CONCLUIDA", 10 * "=-")
             print(3 * "-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
@@ -72,17 +80,20 @@ def pagar_conta(valor_conta, clienteAtual):
                 print(f"{b[0] : <40}{b[1] : ^16}{b[2] :>15}")
             print(f"{'Total' :<40}{valor_conta :>31}")
             print(3 * "-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+
+            #Zera o carrinho e o valor à ser pago
             clienteAtual.carrinho = []
             valor_conta = 0
 
 
         elif opt == 2:
-            #adiciona novamente os produtos ao seus devidos estoques
+            #Adiciona novamente os produtos ao seus devidos estoques
             for i in produtos:
                 for j in clienteAtual.carrinho:
                     if j[0] == i.nome:
                         i.estoque += j[1]
 
+            #Zera o carrinho e o valor à ser pago
             clienteAtual.carrinho = []
             valor_conta = 0
             print(10 * "-=", "CARRINHO ESVAZIADO", 10 * "=-")
@@ -93,6 +104,7 @@ def pagar_conta(valor_conta, clienteAtual):
             print("Opção Inválida")
             print()
 
+    #Essa parte do código só é chamada caso o valor á ser pago seja maior que o crédito
     else:
         print(f"Crédito atual: {clienteAtual.limiteCredito}")
         print(f"Valor à ser pago: {valor_conta}")
@@ -106,12 +118,13 @@ def pagar_conta(valor_conta, clienteAtual):
 
         if opt == 1:
 
-            # adiciona novamente os produtos ao seus devidos estoques
+            #Adiciona novamente os produtos ao seus devidos estoques
             for i in produtos:
                 for j in clienteAtual.carrinho:
                     if j[0] == i.nome:
                         i.estoque += j[1]
 
+            #Zera o carrinho e o valor a ser pago
             clienteAtual.carrinho = []
             valor_conta = 0
             print(10 * "-=", "CARRINHO ESVAZIADO", 10 * "=-")
@@ -123,6 +136,7 @@ def pagar_conta(valor_conta, clienteAtual):
             print("Opção Inválida")
             print()
 
+    #Retorna o novo valor da conta(ou zero, ou o mesmo)
     return valor_conta
 
 
@@ -251,7 +265,7 @@ def login(clientes):
 
     return validation
 
-
+#Menu de compras e carrinho
 def compras(clienteAtual):
     # Checa se há elementos em carrinho, caso hajam, o preço de cada elemento é adicionado
     preco = 0
@@ -276,6 +290,7 @@ def compras(clienteAtual):
             "Para comprar algo, digite o número da opção. Caso deseje acessar o carrinho, digite 20; Caso queira voltar ao menu, digite -1: "))
         if selecionada > 20 or selecionada < -1:
             print("Opção inválida.")
+
             continue
         # Carrinho
         elif selecionada == 20:
@@ -286,17 +301,21 @@ def compras(clienteAtual):
                 print(f"{b[0] : <40}{b[1] : ^16}{b[2] :>15}")
             print(f"{'Total' :<40}{preco :>31}")
             print(3 * "-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+
         elif selecionada < 20 and selecionada >= 0:
             quantia = (int(input(f"Quantidade de {produtos[selecionada].nome} que deseja comprar: ")))
             if quantia < 1:
                 print("Quantidade inválida.")
+
             else:
                 # Teste de estoque
                 if quantia > produtos[selecionada].estoque:
                     print(f"Estoque indisponível. Estoque máximo: {produtos[selecionada].estoque}")
+
                 elif quantia <= produtos[selecionada].estoque:
                     if preco + produtos[selecionada].valor * quantia > clientes[clienteAtualIndex].limiteCredito:
                         print("Você não tem saldo para isso. Pague os produtos atuais e libere mais saldo")
+
                     else:
                         print(
                             f"{quantia} unidades de {produtos[selecionada].nome} adicionadas ao carrinho. Valor total: R$ {produtos[selecionada].valor * quantia:.2f}")
@@ -314,7 +333,14 @@ def compras(clienteAtual):
 
 # Menu após o login concluído
 def loginMenu():
+
+    #Checa se existem elementos no carrinho, se existirem, o preço é adicionado ao valor a ser pago
+    #A variável valor_conta é a que vai ser descontada do credito no final da compra
     valor_conta = 0
+    if clientes[clienteAtualIndex].carrinho != []:
+        for i in clientes[clienteAtualIndex].carrinho:
+            valor_conta += i[2]
+
     while True:
 
         print(20 * "-=")
